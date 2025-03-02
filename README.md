@@ -12,6 +12,47 @@ Tulsa Civic Connect combines artificial intelligence with gamified learning to h
 
 Developed in partnership with Leadership Tulsa, this platform makes civic engagement accessible and engaging for all Tulsa residents.
 
+## 🛠️ Quick Setup
+
+1. **Prerequisites**
+   - Node.js 16.x or higher
+   - MongoDB 4.4+
+   - OpenAI API key
+
+2. **Installation**
+```bash
+# Clone the repository
+git clone https://github.com/your-org/tulsa-civic-connect.git
+
+# Navigate to project directory
+cd tulsa-civic-connect
+
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env.example .env
+```
+
+3. **Configuration**
+   Edit `.env` with your credentials:
+```bash
+OPENAI_API_KEY=your_api_key
+MONGODB_URI=your_mongodb_uri
+JWT_SECRET=your_jwt_secret
+```
+
+4. **Start Development**
+```bash
+# Run all services
+npm run dev:all
+
+# Or run frontend only
+npm run dev
+```
+
+Visit `http://localhost:3000` to view the application.
+
 ![Learning Dashboard](./public/images/learning-dashboard.png)
 
 *The learning dashboard tracks your progress through civic engagement modules and rewards consistent participation*
@@ -40,16 +81,38 @@ Developed in partnership with Leadership Tulsa, this platform makes civic engage
 - Personalization assistance
 - Direct delivery to representatives
 
+![AI Letter Writer](./public/images/ai-letter-writer.png)
+
+*Our AI-powered letter writer helps you craft effective messages to your representatives while maintaining your authentic voice*
+
 ### 🗳️ Voter Resources
 - Election calendar and reminders
 - Candidate profiles and comparisons
 - Voting location finder
 - Registration status checker
 
-## 🚀 Getting Started
+## 🏗️ Project Structure
 
-1. Clone the repository
-2. Install dependencies:
+```
+tulsa-civic-connect/
+├── src/
+│   ├── components/     # Reusable UI components
+│   ├── pages/         # Next.js pages and routes
+│   ├── styles/        # Global styles and themes
+│   ├── utils/         # Helper functions and utilities
+│   └── api/          # API routes and handlers
+├── public/           # Static assets
+└── tests/           # Test suites
+```
+
+## 🧪 Testing
+
+```bash
+# Run all tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
 ```
 
 ## 🛠️ Technologies
@@ -78,6 +141,15 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 For questions or support, please reach out to [contact@tulsacivicconnect.org](mailto:contact@tulsacivicconnect.org)
 
+## 🔄 Updates and Versioning
+
+- We use [Semantic Versioning](https://semver.org/)
+- See [CHANGELOG.md](CHANGELOG.md) for version history
+- Main branch is our production-ready code
+
 ---
+
+![GitHub last commit](https://img.shields.io/github/last-commit/your-org/tulsa-civic-connect)
+![License](https://img.shields.io/github/license/your-org/tulsa-civic-connect)
 
 Built with ❤️ for Tulsa's civic future

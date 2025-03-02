@@ -7,12 +7,110 @@ import {
   Step,
   StepLabel,
   Paper,
+  Button,
+  CircularProgress,
+  Alert,
 } from '@mui/material';
 import ZipCodeStep from './components/ZipCodeStep';
 import IssueStep from './components/IssueStep';
 import ReviewStep from './components/ReviewStep';
 
 const steps = ['Enter ZIP Code', 'Select Issue', 'Review & Send'];
+
+function TestLetterGeneration() {
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState('');
+  const [error, setError] = useState('');
+  const [debugInfo, setDebugInfo] = useState(null);
+
+  const handleTestGeneration = async () => {
+    setLoading(true);
+    setError('');
+    setResult('');
+    setDebugInfo(null);
+
+    try {
+      console.log('Starting test letter generation...');
+      const requestBody = {
+        zipCode: '74103',
+        issue: {
+          title: 'Downtown Revitalization',
+          description: 'Need for improved infrastructure and business development in downtown Tulsa.'
+        }
+      };
+      console.log('Request body:', requestBody);
+
+      const response = await fetch('http://localhost:3000/api/generate-letter', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      const responseData = await response.json();
+      console.log('Response status:', response.status);
+      console.log('Response data:', responseData);
+
+      setDebugInfo({
+        status: response.status,
+        responseData,
+        requestBody,
+      });
+
+      if (!response.ok) {
+        throw new Error(responseData.message || responseData.error || 'Failed to generate test letter');
+      }
+
+      setResult(responseData.letter);
+    } catch (err) {
+      console.error('Test generation error:', err);
+      setError(`Error: ${err.message}. Check console for details.`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <Paper sx={{ mt: 4, p: 3, bgcolor: '#fff3e0' }}>
+      <Typography variant="h6" gutterBottom>
+        🧪 Test Letter Generation
+      </Typography>
+      
+      <Button
+        variant="contained"
+        onClick={handleTestGeneration}
+        disabled={loading}
+        sx={{ mb: 2 }}
+      >
+        {loading ? <CircularProgress size={24} /> : 'Generate Test Letter'}
+      </Button>
+
+      {error && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {error}
+        </Alert>
+      )}
+
+      {debugInfo && (
+        <Paper sx={{ p: 2, mb: 2, bgcolor: '#f5f5f5' }}>
+          <Typography variant="subtitle2" gutterBottom>Debug Information:</Typography>
+          <pre style={{ whiteSpace: 'pre-wrap', overflow: 'auto' }}>
+            {JSON.stringify(debugInfo, null, 2)}
+          </pre>
+        </Paper>
+      )}
+
+      {result && (
+        <Paper sx={{ p: 2, bgcolor: 'white' }}>
+          <Typography sx={{ whiteSpace: 'pre-wrap' }}>
+            {result}
+          </Typography>
+        </Paper>
+      )}
+    </Paper>
+  );
+}
 
 export default function LetterWriter() {
   const [activeStep, setActiveStep] = useState(0);
@@ -75,6 +173,8 @@ export default function LetterWriter() {
           
           {getStepContent(activeStep)}
         </Paper>
+
+        {/* <TestLetterGeneration /> */}
       </Box>
     </Container>
   );

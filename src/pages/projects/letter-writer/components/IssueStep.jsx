@@ -21,7 +21,9 @@ export default function IssueStep({ zipCode, onSelect, onBack }) {
 
   const fetchLocalIssues = async () => {
     setLoading(true);
+    setError('');
     try {
+      console.log('Fetching issues for ZIP:', zipCode);
       const response = await fetch('/api/get-local-issues', {
         method: 'POST',
         headers: {
@@ -30,14 +32,29 @@ export default function IssueStep({ zipCode, onSelect, onBack }) {
         body: JSON.stringify({ zipCode }),
       });
 
-      if (!response.ok) throw new Error('Failed to fetch issues');
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to fetch issues');
+      }
       
       const data = await response.json();
+      console.log('Received issues:', data);
+      
+      if (!data.issues || !Array.isArray(data.issues)) {
+        throw new Error('Invalid response format');
+      }
+
       setIssues(data.issues);
     } catch (err) {
-      setError('Error loading local issues. Please try again.');
+      console.error('Error in fetchLocalIssues:', err);
+      setError(err.message || 'Error loading local issues. Please try again.');
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
+  };
+
+  const handleRetry = () => {
+    fetchLocalIssues();
   };
 
   if (loading) {
@@ -51,8 +68,17 @@ export default function IssueStep({ zipCode, onSelect, onBack }) {
   if (error) {
     return (
       <Box sx={{ py: 2 }}>
-        <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>
-        <Button onClick={onBack}>Go Back</Button>
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {error}
+        </Alert>
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          <Button onClick={onBack}>
+            Go Back
+          </Button>
+          <Button variant="contained" onClick={handleRetry}>
+            Retry
+          </Button>
+        </Box>
       </Box>
     );
   }
