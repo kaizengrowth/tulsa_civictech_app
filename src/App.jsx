@@ -4,7 +4,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Projects from './pages/projects';
-import LetterWriter from './pages/projects/letter-writer';
+import LetterWriter from './pages/projects/letter-writer/index.jsx';
 import GetInvolved from './pages/projects/get-involved';
 import Events from './pages/Events';
 import Profile from './pages/Profile';
