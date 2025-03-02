@@ -1,27 +1,15 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ThemeProvider, createTheme } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
-import Projects from './pages/Projects';
+import Projects from './pages/projects';
+import LetterWriter from './pages/projects/letter-writer';
+import GetInvolved from './pages/projects/get-involved';
 import Events from './pages/Events';
-import GetInvolved from './pages/GetInvolved';
 import Profile from './pages/Profile';
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#2196f3',
-      light: '#64b5f6',
-      dark: '#1976d2',
-    },
-    secondary: {
-      main: '#4caf50',
-      light: '#81c784',
-      dark: '#388e3c',
-    },
-  },
-});
+import LearningJourney from './pages/profile/learning-journey';
+import theme from './styles/theme';
 
 function App() {
   console.log('App is rendering');
@@ -33,9 +21,11 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/projects" element={<Projects />} />
+          <Route path="/projects/letter-writer" element={<LetterWriter />} />
+          <Route path="/projects/get-involved" element={<GetInvolved />} />
           <Route path="/events" element={<Events />} />
-          <Route path="/get-involved" element={<GetInvolved />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/learning-journey" element={<LearningJourney />} />
         </Routes>
       </Router>
     </ThemeProvider>

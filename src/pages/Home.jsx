@@ -1,137 +1,107 @@
-import { Box, Container, Typography, Paper, Grid, LinearProgress, Button } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import {
+  Container,
+  Typography,
+  Grid,
+  Card,
+  CardContent,
+  Box,
+  Button,
+  CardMedia,
+} from '@mui/material';
+import { TrendingUp, People, EmojiEvents, Assignment } from '@mui/icons-material';
 
-const Home = () => {
-  const navigate = useNavigate();
-  const userProgress = {
-    points: 120,
-    level: 2,
-    completedModules: 3,
-    totalModules: 10,
-    dailyStreak: 5
-  };
+export default function Home() {
+  const stats = [
+    { icon: <People />, count: "2,500+", label: "Active Citizens" },
+    { icon: <Assignment />, count: "150+", label: "Letters Sent" },
+    { icon: <EmojiEvents />, count: "45", label: "Civic Projects" },
+    { icon: <TrendingUp />, count: "85%", label: "Engagement Rate" },
+  ];
+
+  const featuredUpdates = [
+    {
+      title: "City Council Meeting",
+      date: "Next Tuesday, 6:00 PM",
+      description: "Discussion on the new downtown development plan and public transportation initiatives.",
+      image: "/images/citycouncil.jpeg"
+    },
+    {
+      title: "Neighborhood Clean-up Drive",
+      date: "Saturday, March 23",
+      description: "Join your neighbors in beautifying the Kendall Whittier district.",
+      image: "/images/cleanup.jpeg"
+    },
+    {
+      title: "Budget Town Hall",
+      date: "March 28, 5:30 PM",
+      description: "Share your input on Tulsa's 2024 municipal budget priorities.",
+      image: "/images/townhall.webp"
+    }
+  ];
 
   return (
-    <Container maxWidth="lg">
-      <Box sx={{ mt: 4, mb: 4 }}>
-        <Paper sx={{ p: 3, mb: 4, backgroundColor: '#f5f9ff' }}>
-          <Grid container spacing={2} alignItems="center">
-            <Grid item xs={12} md={8}>
-              <Typography variant="h5" gutterBottom>
-                Welcome back, Civic Leader!
-              </Typography>
-              <Typography variant="body1" gutterBottom>
-                Level {userProgress.level} • {userProgress.points} Points
-              </Typography>
-              <Box sx={{ width: '100%', mt: 2 }}>
-                <LinearProgress 
-                  variant="determinate" 
-                  value={(userProgress.completedModules / userProgress.totalModules) * 100}
-                  sx={{ height: 10, borderRadius: 5 }}
-                />
-              </Box>
-              <Typography variant="body2" sx={{ mt: 1 }}>
-                {userProgress.completedModules} of {userProgress.totalModules} modules completed
-              </Typography>
-            </Grid>
-            <Grid item xs={12} md={4} textAlign="center">
-              <Paper elevation={3} sx={{ p: 2, backgroundColor: '#fff' }}>
-                <Typography variant="h6" color="primary">
-                  🔥 {userProgress.dailyStreak} Day Streak!
-                </Typography>
-              </Paper>
-            </Grid>
-          </Grid>
-        </Paper>
-
-        <Typography variant="h5" sx={{ mb: 3 }}>
-          Today's Learning Path
+    <Container maxWidth="lg" sx={{ py: 6 }}>
+      <Box sx={{ textAlign: 'center', mb: 8 }}>
+        <Typography variant="h2" component="h1" gutterBottom>
+          Shape Tulsa's Future
         </Typography>
-
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={4}>
-            <Paper 
-              elevation={3} 
-              sx={{ 
-                p: 3, 
-                height: '100%',
-                cursor: 'pointer',
-                '&:hover': { backgroundColor: '#f5f9ff' }
-              }}
-              onClick={() => navigate('/modules/city-council')}
-            >
-              <Typography variant="h6" gutterBottom color="primary">
-                City Council Basics
-              </Typography>
-              <Typography variant="body2" color="text.secondary" gutterBottom>
-                15 min • 50 points
-              </Typography>
-              <Typography>
-                Learn how Tulsa's City Council works and makes decisions.
-              </Typography>
-            </Paper>
-          </Grid>
-
-          <Grid item xs={12} md={4}>
-            <Paper 
-              elevation={3} 
-              sx={{ 
-                p: 3, 
-                height: '100%',
-                cursor: 'pointer',
-                '&:hover': { backgroundColor: '#f5f9ff' }
-              }}
-              onClick={() => navigate('/modules/nonprofits')}
-            >
-              <Typography variant="h6" gutterBottom color="primary">
-                Local Nonprofits
-              </Typography>
-              <Typography variant="body2" color="text.secondary" gutterBottom>
-                20 min • 75 points
-              </Typography>
-              <Typography>
-                Discover key nonprofit organizations making an impact in Tulsa.
-              </Typography>
-            </Paper>
-          </Grid>
-
-          <Grid item xs={12} md={4}>
-            <Paper 
-              elevation={3} 
-              sx={{ 
-                p: 3, 
-                height: '100%',
-                cursor: 'pointer',
-                '&:hover': { backgroundColor: '#f5f9ff' }
-              }}
-              onClick={() => navigate('/modules/community-initiatives')}
-            >
-              <Typography variant="h6" gutterBottom color="primary">
-                Community Initiatives
-              </Typography>
-              <Typography variant="body2" color="text.secondary" gutterBottom>
-                25 min • 100 points
-              </Typography>
-              <Typography>
-                Explore current initiatives shaping Tulsa's future.
-              </Typography>
-            </Paper>
-          </Grid>
-        </Grid>
-
-        <Box sx={{ mt: 4, textAlign: 'center' }}>
-          <Button 
-            variant="contained" 
-            color="primary" 
-            size="large"
-            onClick={() => navigate('/modules')}
-          >
-            View All Learning Modules
-          </Button>
-        </Box>
+        <Typography variant="h5" color="text.secondary" paragraph>
+          Connect, engage, and make a difference in your community
+        </Typography>
       </Box>
+
+      <Grid container spacing={4} sx={{ mb: 8 }}>
+        {stats.map((stat, index) => (
+          <Grid item xs={6} md={3} key={index}>
+            <Card sx={{ height: '100%', textAlign: 'center' }}>
+              <CardContent>
+                <Box sx={{ color: 'primary.main', mb: 2 }}>
+                  {stat.icon}
+                </Box>
+                <Typography variant="h4" component="div">
+                  {stat.count}
+                </Typography>
+                <Typography color="text.secondary">
+                  {stat.label}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+
+      <Typography variant="h4" gutterBottom sx={{ mb: 4 }}>
+        Latest Updates
+      </Typography>
+
+      <Grid container spacing={4}>
+        {featuredUpdates.map((update, index) => (
+          <Grid item xs={12} md={4} key={index}>
+            <Card sx={{ height: '100%' }}>
+              <CardMedia
+                component="img"
+                height="200"
+                image={update.image}
+                alt={update.title}
+              />
+              <CardContent>
+                <Typography variant="overline" color="primary">
+                  {update.date}
+                </Typography>
+                <Typography variant="h6" component="h2" gutterBottom>
+                  {update.title}
+                </Typography>
+                <Typography variant="body2" color="text.secondary" paragraph>
+                  {update.description}
+                </Typography>
+                <Button size="small" color="primary">
+                  Learn More
+                </Button>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
     </Container>
   );
-};
-
-export default Home;
+}

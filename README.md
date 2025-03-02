@@ -13,6 +13,7 @@ Tulsa Civic Connect combines artificial intelligence with gamified learning to h
 Developed in partnership with Leadership Tulsa, this platform makes civic engagement accessible and engaging for all Tulsa residents.
 
 ![Learning Dashboard](./public/images/learning-dashboard.png)
+
 *The learning dashboard tracks your progress through civic engagement modules and rewards consistent participation*
 
 ## ✨ Key Features
@@ -30,6 +31,7 @@ Developed in partnership with Leadership Tulsa, this platform makes civic engage
 - Real-world civic action challenges
 
 ![Profile Dashboard](./public/images/profile-dashboard.png)
+
 *Earn badges and track your progress as you become a Civic Champion! Join district teams and complete learning paths to level up your civic engagement.*
 
 ### ✍️ Letter Generator

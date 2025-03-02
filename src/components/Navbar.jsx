@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link as RouterLink, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
   AppBar,
   Toolbar,
@@ -23,8 +23,11 @@ import {
   Event as EventsIcon,
   GroupAdd as GetInvolvedIcon,
   Person as ProfileIcon,
+  Edit as LetterIcon,
   ExpandLess,
   ExpandMore,
+  Person as PersonIcon,
+  School as SchoolIcon,
 } from '@mui/icons-material';
 
 const Navbar = () => {
@@ -41,11 +44,20 @@ const Navbar = () => {
       path: '/projects',
       icon: <ProjectsIcon />,
       subItems: [
-        { text: 'Get Involved', path: '/get-involved', icon: <GetInvolvedIcon /> },
+        { text: 'AI Letter Writer', path: '/projects/letter-writer', icon: <LetterIcon /> },
+        { text: 'Get Involved', path: '/projects/get-involved', icon: <GetInvolvedIcon /> },
       ],
     },
     { text: 'Events', path: '/events', icon: <EventsIcon /> },
-    { text: 'My Profile', path: '/profile', icon: <ProfileIcon /> },
+    {
+      text: 'My Profile',
+      path: '/profile',
+      icon: <ProfileIcon />,
+      subItems: [
+        { text: 'Game Progress', path: '/profile', icon: <PersonIcon /> },
+        { text: 'Learning Journey', path: '/profile/learning-journey', icon: <SchoolIcon /> },
+      ],
+    },
   ];
 
   const handleDrawerToggle = () => {
@@ -58,7 +70,7 @@ const Navbar = () => {
 
   const isSelected = (path) => {
     if (path === '/projects') {
-      return location.pathname === path || location.pathname === '/get-involved';
+      return location.pathname.startsWith(path);
     }
     return location.pathname === path;
   };
@@ -85,23 +97,39 @@ const Navbar = () => {
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               {menuItems.map((item) => (
                 <Box key={item.text}>
-                  <Button
-                    color="inherit"
-                    component={item.subItems ? 'div' : RouterLink}
-                    to={item.subItems ? undefined : item.path}
-                    onClick={item.subItems ? handleProjectsClick : undefined}
-                    sx={{
-                      mx: 1,
-                      backgroundColor: isSelected(item.path) ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
-                      '&:hover': {
-                        backgroundColor: 'rgba(255, 255, 255, 0.2)',
-                      },
-                    }}
-                    startIcon={item.icon}
-                    endIcon={item.subItems && (projectsOpen ? <ExpandLess /> : <ExpandMore />)}
-                  >
-                    {item.text}
-                  </Button>
+                  {item.subItems ? (
+                    <Button
+                      color="inherit"
+                      onClick={handleProjectsClick}
+                      sx={{
+                        mx: 1,
+                        backgroundColor: isSelected(item.path) ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
+                        '&:hover': {
+                          backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                        },
+                      }}
+                      startIcon={item.icon}
+                      endIcon={projectsOpen ? <ExpandLess /> : <ExpandMore />}
+                    >
+                      {item.text}
+                    </Button>
+                  ) : (
+                    <Button
+                      component={Link}
+                      to={item.path}
+                      color="inherit"
+                      sx={{
+                        mx: 1,
+                        backgroundColor: isSelected(item.path) ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
+                        '&:hover': {
+                          backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                        },
+                      }}
+                      startIcon={item.icon}
+                    >
+                      {item.text}
+                    </Button>
+                  )}
                   {item.subItems && (
                     <Box
                       sx={{
@@ -114,7 +142,7 @@ const Navbar = () => {
                       {item.subItems.map((subItem) => (
                         <Button
                           key={subItem.text}
-                          component={RouterLink}
+                          component={Link}
                           to={subItem.path}
                           color="inherit"
                           sx={{
@@ -151,12 +179,14 @@ const Navbar = () => {
       >
         <List sx={{ width: 250 }}>
           {menuItems.map((item) => (
-            <>
-              <ListItem 
-                component={item.subItems ? 'div' : RouterLink}
+            <Box key={item.text}>
+              <ListItem
+                button
+                onClick={item.subItems ? handleProjectsClick : () => {
+                  handleDrawerToggle();
+                }}
+                component={item.subItems ? 'div' : Link}
                 to={item.subItems ? undefined : item.path}
-                key={item.text}
-                onClick={item.subItems ? handleProjectsClick : handleDrawerToggle}
                 selected={isSelected(item.path)}
                 sx={{
                   '&.Mui-selected': {
@@ -186,7 +216,8 @@ const Navbar = () => {
                     {item.subItems.map((subItem) => (
                       <ListItem
                         key={subItem.text}
-                        component={RouterLink}
+                        button
+                        component={Link}
                         to={subItem.path}
                         onClick={handleDrawerToggle}
                         selected={location.pathname === subItem.path}
@@ -216,7 +247,7 @@ const Navbar = () => {
                   </List>
                 </Collapse>
               )}
-            </>
+            </Box>
           ))}
         </List>
       </Drawer>
